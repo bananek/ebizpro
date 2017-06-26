@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+        <title>Sign up!</title>
+      </head>
+      <body>
+        Sign up now!
+
+        @helper.form(action=routes.Application.newuser) {
+          <label>Username
+            <input type="text" name="name" tabindex="1" required="required"/>
+          </label>
+          <label>Email
+            <input type="text" name="email" tabindex="2" required="required">
+          </label>
+            <label>Password
+              <input type="text" name="password" tabindex="3" required="required">
+              </label>
+
+            <input type="hidden" name="priv" value="0">
+
+                <input type="submit" value="Add" type="button">
+                  }
+                </body>
+              </html>

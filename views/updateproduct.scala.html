@@ -1,0 +1,28 @@
+@(product:  Product)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+@helper.form(action=routes.Application.applyproductchanges) {
+  <label>Title
+    <input type="text" name="title" tabindex="1" required="required" value="@product.title"/>
+  </label>
+  <label>Author
+    <input type="text" name="author" tabindex="2" required="required" value="@product.author"/>
+  </label>
+  <label>Description
+    <input type="text" name="description" tabindex="3" required="required" value="@product.description">
+  </label>
+  <label>Price
+    <input type="text" name="price" tabindex="4" required="required" value="@product.price">
+  </label>
+  <input type="submit" value="Update" type="button">
+  }
+
+</body>
+</html>
