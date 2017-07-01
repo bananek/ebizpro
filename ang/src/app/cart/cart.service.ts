@@ -4,15 +4,13 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Cart} from './cart';
-import { LoginService } from '../login/login.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CartService {
 
-  profile: any;
 
-  constructor(private http: Http, private loginService: LoginService) {
+  constructor(private http: Http) {
   }
 
 
@@ -21,8 +19,8 @@ export class CartService {
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
 
-    this.profile = this.loginService.userProfile;
-    let uid: string = this.profile.sub;
+
+    let uid = 'admin';
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('uid', uid);
@@ -49,12 +47,7 @@ export class CartService {
 
   addToCart(title: String, price: number) {
 
-    console.log('login service');
-
-    this.profile = this.loginService.userProfile;
-    let uid: string = this.profile.sub;
-
-    console.log('uid = ' + uid);
+    let uid = 'admin';
 
     const serializedJson = JSON.stringify({
       'title': title,

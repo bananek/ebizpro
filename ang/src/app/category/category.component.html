@@ -1,3 +1,3 @@
-<li *ngFor="let category of categories">
-  <a routerLink="/category/{{category.gid}}"> {{ category.genre}}</a>
-</li>
+<tr *ngFor="let category of categories">
+  <td><a routerLink="/category/{{category.gid}}"> {{ category.genre}}</a></td>
+</tr>

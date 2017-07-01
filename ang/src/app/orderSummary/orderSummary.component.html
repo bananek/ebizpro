@@ -22,6 +22,8 @@
 
     <button type="submit">Send</button>
   </form>
+
+
 </div>
 
 <div *ngIf="step==2">
@@ -48,4 +50,21 @@
 <div *ngIf="step==3">
   The order has been sent!
 </div>
+
+
+
+  <div *ngIf="step==0">
+    <form [formGroup]="orderForm" (ngSubmit)="addOrder($event)">
+
+      <strong>oid </strong><input formControlName="oid" type="value">
+      <strong> productlist </strong><input formControlName="productlist" type="text">
+      <strong> shipment </strong><input formControlName="shipment" type="text">
+      <strong> payment </strong><input formControlName="payment" type="text">
+      <strong> price </strong><input formControlName="price" type="value">
+      <strong> uid </strong><input formControlName="uid" type="text">
+      <strong> address </strong><input formControlName="address" type="text">
+
+      <button type="submit">Add order.</button>
+    </form>
+  </div>
 

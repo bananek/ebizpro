@@ -51,7 +51,7 @@ export class ProductService {
 
   sendToPlay(formData) {
     const serializedForm = JSON.stringify(formData);
-    // console.log(serializedForm);
+     console.log(serializedForm);
 
     const headers: Headers = new Headers();
     headers.append('Accept', 'application/json');
@@ -59,10 +59,38 @@ export class ProductService {
 
     const options = new RequestOptions({headers: headers});
 
-    this.http.post('http://localhost:9000/testing', serializedForm, options)
+    this.http.post('http://localhost:9000/newproduct', serializedForm, options)
       .subscribe(
         data => console.log('wyslane!', data),
         error => console.error('nie bangla', error)
+      );
+  }
+
+  editProduct(pid: number, formData) {
+    const serializedForm = JSON.stringify(formData);
+    console.log(serializedForm);
+
+    const headers: Headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+
+    const options = new RequestOptions({headers: headers});
+
+    this.http.post('http://localhost:9000/newproduct', serializedForm, options)
+      .subscribe(
+        data => console.log('wyslane!', data),
+        error => console.error('nie bangla', error)
+      );
+
+    const headers2: Headers = new Headers();
+    headers2.append('Accept', 'application/json');
+    headers2.append('Content-Type', 'application/json');
+
+    const options2 = new RequestOptions({headers: headers2});
+    this.http.get('http://localhost:9000/removeproduct/' + pid, options2)
+      .subscribe(
+        data => console.log('remove product', data),
+        error => console.error('error while removing product', error)
       );
   }
 
@@ -76,6 +104,19 @@ export class ProductService {
       .subscribe(
         data => console.log('removed from cart', data),
         error => console.error('error occurred while removing item from cart', error)
+      );
+  }
+
+  delete(pid: number) {
+    const headers: Headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+
+    const options = new RequestOptions({headers: headers});
+    this.http.get('http://localhost:9000/removeproduct/' + pid, options)
+      .subscribe(
+        data => console.log('remove product', data),
+        error => console.error('error while removing product', error)
       );
   }
 

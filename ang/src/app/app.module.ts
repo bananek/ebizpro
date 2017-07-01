@@ -5,24 +5,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
-import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { ShowProductComponent } from './showProduct/showProduct.component';
 import { CartComponent } from './cart/cart.component';
 import { PageNotFoundComponent } from './not-found/not-found.component';
+import { MainPageComponent } from './mainPage/mainPage.component';
+import { PanelComponent } from './panel/panel.component';
+import { AProductComponent } from './panel/aproduct.component';
+import { ACategoryComponent } from './panel/acategory.component';
+import { AOrderComponent } from './panel/aorder.component';
 import { TestComponent } from './test/test.component';
 import { OrderSummaryComponent } from './orderSummary/orderSummary.component';
+import { ParcelComponent } from './parcel/parcel.component';
 
-import { LoginService } from './login/login.service';
+
 import { ProductService } from './product/product.service';
 import { CartService } from './cart/cart.service';
 import { CategoryService } from './category/category.service';
 import { TestService } from './test/test.service';
 import { OrderService } from './orderSummary/order.service';
-import { CanActivateViaOAuthGuard } from './oAuth.canActivateGuard';
-
+import { ParcelService } from './parcel/parcel.service';
 
 
 
@@ -36,7 +40,12 @@ import { CanActivateViaOAuthGuard } from './oAuth.canActivateGuard';
     CartComponent,
     TestComponent,
     OrderSummaryComponent,
-    LoginComponent
+    MainPageComponent,
+    PanelComponent,
+    AProductComponent,
+    ACategoryComponent,
+    AOrderComponent,
+    ParcelComponent
   ],
   imports: [
     HttpModule,
@@ -47,17 +56,21 @@ import { CanActivateViaOAuthGuard } from './oAuth.canActivateGuard';
     RouterModule.forRoot([
       { path: '.', component: AppComponent},
       { path: 'test', component: TestComponent},
-      { path: 'index.hyml', component: AppComponent},
+      { path: 'index.html', component: MainPageComponent},
+      { path: 'mainPage', component: MainPageComponent},
+      { path: 'panel', component: PanelComponent},
+      { path: 'admin/products', component: AProductComponent },
+      { path: 'admin/categories', component: ACategoryComponent },
+      { path: 'admin/parcels', component: ParcelComponent},
+      { path: 'admin/orders', component: AOrderComponent },
       { path: 'products', component: ProductComponent},
       { path: 'category/:id', component: ProductComponent},
       { path: 'categories', component: CategoryComponent},
-      { path: 'cart', component: CartComponent, canActivate: [CanActivateViaOAuthGuard]},
+      { path: 'cart', component: CartComponent},
       { path: 'orderSummary', component: OrderSummaryComponent},
-      { path: 'login', component: LoginComponent},
-      { path: 'callback', component: LoginComponent},
       { path: 'showProduct/:id', component: ShowProductComponent},
       { path: 'moreparams/:tytul/:opis', component: ProductComponent},
-      { path: '', redirectTo: 'products', pathMatch: 'full'},
+      { path: '', redirectTo: 'mainPage', pathMatch: 'full'},
       { path: '**', component: PageNotFoundComponent }
       ])
   ],
@@ -65,9 +78,8 @@ import { CanActivateViaOAuthGuard } from './oAuth.canActivateGuard';
               CartService,
               CategoryService,
               TestService,
-              LoginService,
               OrderService,
-             CanActivateViaOAuthGuard],
+              ParcelService],
   bootstrap: [AppComponent]
 
 })

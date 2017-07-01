@@ -24,6 +24,8 @@ export class ShowProductComponent implements OnInit {
       product => this.product = product,
       err => {
         console.log(err); });
+
+    console.log('product = ' + this.product);
   }
 
   addProduct() {
