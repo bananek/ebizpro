@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:N:/ebiznes/ec/play/conf/routes
-// @DATE:Mon Jun 26 23:05:46 CEST 2017
+// @DATE:Sat Jul 01 01:38:38 CEST 2017
 
 package router
 
@@ -43,11 +43,20 @@ class Routes extends GeneratedRouter {
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """showusers""", """@controllers.Application@.showusers"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """categories""", """@controllers.Application@.categories"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """category""", """@controllers.Application@.category(id:Int ?= 0)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """getcategory""", """@controllers.Application@.getcat(id:Int ?= 0)"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """cart""", """@controllers.Application@.cart"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """showorders""", """@controllers.Application@.showorders"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """pbrowse""", """@controllers.Application@.pbrowse"""),
+    ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """newparcel""", """@controllers.Application@.newparcel"""),
+    ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """newproduct""", """@controllers.Application@.newproduct"""),
     ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """sendorder""", """@controllers.Application@.sendorder"""),
     ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """addtocart""", """@controllers.Application@.addtocart"""),
+    ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """newcategory""", """@controllers.Application@.newcategory"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removefromcart/$title<[^/]+>""", """@controllers.Application@.removefromcart(title:String)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removeproduct/$pid<[^/]+>""", """@controllers.Application@.removeproduct(pid:Int)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removecategory/$gid<[^/]+>""", """@controllers.Application@.removecategory(gid:Int)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removeorder/$oid<[^/]+>""", """@controllers.Application@.removeorder(oid:Int)"""),
+    ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removeparcel/$oid<[^/]+>""", """@controllers.Application@.removeparcel(oid:Int)"""),
     ("""GET""", prefix + (if(prefix.endsWith("/")) "" else "/") + """showtest""", """@controllers.Application@.showtest"""),
     ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """removetest""", """@controllers.Application@.removetest(t:Int ?= 0)"""),
     ("""POST""", prefix + (if(prefix.endsWith("/")) "" else "/") + """newtest""", """@controllers.Application@.newtest"""),
@@ -162,10 +171,27 @@ class Routes extends GeneratedRouter {
   )
 
   // @LINE:12
-  private[this] lazy val controllers_Application_cart6_route: Route.ParamsExtractor = Route("GET",
+  private[this] lazy val controllers_Application_getcat6_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("getcategory")))
+  )
+  private[this] lazy val controllers_Application_getcat6_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).getcat(fakeValue[Int]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "getcat",
+      Seq(classOf[Int]),
+      "GET",
+      """""",
+      this.prefix + """getcategory"""
+    )
+  )
+
+  // @LINE:13
+  private[this] lazy val controllers_Application_cart7_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("cart")))
   )
-  private[this] lazy val controllers_Application_cart6_invoker = createInvoker(
+  private[this] lazy val controllers_Application_cart7_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).cart,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -178,11 +204,11 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:14
-  private[this] lazy val controllers_Application_showorders7_route: Route.ParamsExtractor = Route("GET",
+  // @LINE:15
+  private[this] lazy val controllers_Application_showorders8_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("showorders")))
   )
-  private[this] lazy val controllers_Application_showorders7_invoker = createInvoker(
+  private[this] lazy val controllers_Application_showorders8_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showorders,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -195,11 +221,62 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:17
-  private[this] lazy val controllers_Application_sendorder8_route: Route.ParamsExtractor = Route("POST",
+  // @LINE:18
+  private[this] lazy val controllers_Application_pbrowse9_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("pbrowse")))
+  )
+  private[this] lazy val controllers_Application_pbrowse9_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).pbrowse,
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "pbrowse",
+      Nil,
+      "GET",
+      """""",
+      this.prefix + """pbrowse"""
+    )
+  )
+
+  // @LINE:20
+  private[this] lazy val controllers_Application_newparcel10_route: Route.ParamsExtractor = Route("POST",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("newparcel")))
+  )
+  private[this] lazy val controllers_Application_newparcel10_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newparcel,
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "newparcel",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """newparcel"""
+    )
+  )
+
+  // @LINE:23
+  private[this] lazy val controllers_Application_newproduct11_route: Route.ParamsExtractor = Route("POST",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("newproduct")))
+  )
+  private[this] lazy val controllers_Application_newproduct11_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newproduct,
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "newproduct",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """newproduct"""
+    )
+  )
+
+  // @LINE:24
+  private[this] lazy val controllers_Application_sendorder12_route: Route.ParamsExtractor = Route("POST",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("sendorder")))
   )
-  private[this] lazy val controllers_Application_sendorder8_invoker = createInvoker(
+  private[this] lazy val controllers_Application_sendorder12_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).sendorder,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -207,16 +284,16 @@ class Routes extends GeneratedRouter {
       "sendorder",
       Nil,
       "POST",
-      """POST    /newproduct                 @controllers.Application.newproduct""",
+      """""",
       this.prefix + """sendorder"""
     )
   )
 
-  // @LINE:18
-  private[this] lazy val controllers_Application_addtocart9_route: Route.ParamsExtractor = Route("POST",
+  // @LINE:25
+  private[this] lazy val controllers_Application_addtocart13_route: Route.ParamsExtractor = Route("POST",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("addtocart")))
   )
-  private[this] lazy val controllers_Application_addtocart9_invoker = createInvoker(
+  private[this] lazy val controllers_Application_addtocart13_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).addtocart,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -229,11 +306,28 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:22
-  private[this] lazy val controllers_Application_removefromcart10_route: Route.ParamsExtractor = Route("GET",
+  // @LINE:26
+  private[this] lazy val controllers_Application_newcategory14_route: Route.ParamsExtractor = Route("POST",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("newcategory")))
+  )
+  private[this] lazy val controllers_Application_newcategory14_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newcategory,
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "newcategory",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """newcategory"""
+    )
+  )
+
+  // @LINE:30
+  private[this] lazy val controllers_Application_removefromcart15_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removefromcart/"), DynamicPart("title", """[^/]+""",true)))
   )
-  private[this] lazy val controllers_Application_removefromcart10_invoker = createInvoker(
+  private[this] lazy val controllers_Application_removefromcart15_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removefromcart(fakeValue[String]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -246,11 +340,79 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:25
-  private[this] lazy val controllers_Application_showtest11_route: Route.ParamsExtractor = Route("GET",
+  // @LINE:31
+  private[this] lazy val controllers_Application_removeproduct16_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removeproduct/"), DynamicPart("pid", """[^/]+""",true)))
+  )
+  private[this] lazy val controllers_Application_removeproduct16_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeproduct(fakeValue[Int]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "removeproduct",
+      Seq(classOf[Int]),
+      "GET",
+      """""",
+      this.prefix + """removeproduct/$pid<[^/]+>"""
+    )
+  )
+
+  // @LINE:32
+  private[this] lazy val controllers_Application_removecategory17_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removecategory/"), DynamicPart("gid", """[^/]+""",true)))
+  )
+  private[this] lazy val controllers_Application_removecategory17_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removecategory(fakeValue[Int]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "removecategory",
+      Seq(classOf[Int]),
+      "GET",
+      """""",
+      this.prefix + """removecategory/$gid<[^/]+>"""
+    )
+  )
+
+  // @LINE:33
+  private[this] lazy val controllers_Application_removeorder18_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removeorder/"), DynamicPart("oid", """[^/]+""",true)))
+  )
+  private[this] lazy val controllers_Application_removeorder18_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeorder(fakeValue[Int]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "removeorder",
+      Seq(classOf[Int]),
+      "GET",
+      """""",
+      this.prefix + """removeorder/$oid<[^/]+>"""
+    )
+  )
+
+  // @LINE:35
+  private[this] lazy val controllers_Application_removeparcel19_route: Route.ParamsExtractor = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removeparcel/"), DynamicPart("oid", """[^/]+""",true)))
+  )
+  private[this] lazy val controllers_Application_removeparcel19_invoker = createInvoker(
+    play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeparcel(fakeValue[Int]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.Application",
+      "removeparcel",
+      Seq(classOf[Int]),
+      "GET",
+      """""",
+      this.prefix + """removeparcel/$oid<[^/]+>"""
+    )
+  )
+
+  // @LINE:38
+  private[this] lazy val controllers_Application_showtest20_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("showtest")))
   )
-  private[this] lazy val controllers_Application_showtest11_invoker = createInvoker(
+  private[this] lazy val controllers_Application_showtest20_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showtest,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -263,11 +425,11 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:26
-  private[this] lazy val controllers_Application_removetest12_route: Route.ParamsExtractor = Route("POST",
+  // @LINE:39
+  private[this] lazy val controllers_Application_removetest21_route: Route.ParamsExtractor = Route("POST",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("removetest")))
   )
-  private[this] lazy val controllers_Application_removetest12_invoker = createInvoker(
+  private[this] lazy val controllers_Application_removetest21_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removetest(fakeValue[Int]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -280,11 +442,11 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:27
-  private[this] lazy val controllers_Application_newtest13_route: Route.ParamsExtractor = Route("POST",
+  // @LINE:40
+  private[this] lazy val controllers_Application_newtest22_route: Route.ParamsExtractor = Route("POST",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("newtest")))
   )
-  private[this] lazy val controllers_Application_newtest13_invoker = createInvoker(
+  private[this] lazy val controllers_Application_newtest22_invoker = createInvoker(
     play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newtest,
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -297,11 +459,11 @@ class Routes extends GeneratedRouter {
     )
   )
 
-  // @LINE:31
-  private[this] lazy val controllers_Assets_at14_route: Route.ParamsExtractor = Route("GET",
+  // @LINE:44
+  private[this] lazy val controllers_Assets_at23_route: Route.ParamsExtractor = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("assets/"), DynamicPart("file", """.+""",false)))
   )
-  private[this] lazy val controllers_Assets_at14_invoker = createInvoker(
+  private[this] lazy val controllers_Assets_at23_invoker = createInvoker(
     controllers.Assets.at(fakeValue[String], fakeValue[String]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -354,57 +516,111 @@ class Routes extends GeneratedRouter {
       }
   
     // @LINE:12
-    case controllers_Application_cart6_route(params) =>
-      call { 
-        controllers_Application_cart6_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).cart)
+    case controllers_Application_getcat6_route(params) =>
+      call(params.fromQuery[Int]("id", Some(0))) { (id) =>
+        controllers_Application_getcat6_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).getcat(id))
       }
   
-    // @LINE:14
-    case controllers_Application_showorders7_route(params) =>
+    // @LINE:13
+    case controllers_Application_cart7_route(params) =>
       call { 
-        controllers_Application_showorders7_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showorders)
+        controllers_Application_cart7_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).cart)
       }
   
-    // @LINE:17
-    case controllers_Application_sendorder8_route(params) =>
+    // @LINE:15
+    case controllers_Application_showorders8_route(params) =>
       call { 
-        controllers_Application_sendorder8_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).sendorder)
+        controllers_Application_showorders8_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showorders)
       }
   
     // @LINE:18
-    case controllers_Application_addtocart9_route(params) =>
+    case controllers_Application_pbrowse9_route(params) =>
       call { 
-        controllers_Application_addtocart9_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).addtocart)
+        controllers_Application_pbrowse9_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).pbrowse)
       }
   
-    // @LINE:22
-    case controllers_Application_removefromcart10_route(params) =>
-      call(params.fromPath[String]("title", None)) { (title) =>
-        controllers_Application_removefromcart10_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removefromcart(title))
+    // @LINE:20
+    case controllers_Application_newparcel10_route(params) =>
+      call { 
+        controllers_Application_newparcel10_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newparcel)
+      }
+  
+    // @LINE:23
+    case controllers_Application_newproduct11_route(params) =>
+      call { 
+        controllers_Application_newproduct11_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newproduct)
+      }
+  
+    // @LINE:24
+    case controllers_Application_sendorder12_route(params) =>
+      call { 
+        controllers_Application_sendorder12_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).sendorder)
       }
   
     // @LINE:25
-    case controllers_Application_showtest11_route(params) =>
+    case controllers_Application_addtocart13_route(params) =>
       call { 
-        controllers_Application_showtest11_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showtest)
+        controllers_Application_addtocart13_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).addtocart)
       }
   
     // @LINE:26
-    case controllers_Application_removetest12_route(params) =>
-      call(params.fromQuery[Int]("t", Some(0))) { (t) =>
-        controllers_Application_removetest12_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removetest(t))
+    case controllers_Application_newcategory14_route(params) =>
+      call { 
+        controllers_Application_newcategory14_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newcategory)
       }
   
-    // @LINE:27
-    case controllers_Application_newtest13_route(params) =>
-      call { 
-        controllers_Application_newtest13_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newtest)
+    // @LINE:30
+    case controllers_Application_removefromcart15_route(params) =>
+      call(params.fromPath[String]("title", None)) { (title) =>
+        controllers_Application_removefromcart15_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removefromcart(title))
       }
   
     // @LINE:31
-    case controllers_Assets_at14_route(params) =>
+    case controllers_Application_removeproduct16_route(params) =>
+      call(params.fromPath[Int]("pid", None)) { (pid) =>
+        controllers_Application_removeproduct16_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeproduct(pid))
+      }
+  
+    // @LINE:32
+    case controllers_Application_removecategory17_route(params) =>
+      call(params.fromPath[Int]("gid", None)) { (gid) =>
+        controllers_Application_removecategory17_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removecategory(gid))
+      }
+  
+    // @LINE:33
+    case controllers_Application_removeorder18_route(params) =>
+      call(params.fromPath[Int]("oid", None)) { (oid) =>
+        controllers_Application_removeorder18_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeorder(oid))
+      }
+  
+    // @LINE:35
+    case controllers_Application_removeparcel19_route(params) =>
+      call(params.fromPath[Int]("oid", None)) { (oid) =>
+        controllers_Application_removeparcel19_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removeparcel(oid))
+      }
+  
+    // @LINE:38
+    case controllers_Application_showtest20_route(params) =>
+      call { 
+        controllers_Application_showtest20_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).showtest)
+      }
+  
+    // @LINE:39
+    case controllers_Application_removetest21_route(params) =>
+      call(params.fromQuery[Int]("t", Some(0))) { (t) =>
+        controllers_Application_removetest21_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).removetest(t))
+      }
+  
+    // @LINE:40
+    case controllers_Application_newtest22_route(params) =>
+      call { 
+        controllers_Application_newtest22_invoker.call(play.api.Play.maybeApplication.map(_.injector).getOrElse(play.api.inject.NewInstanceInjector).instanceOf(classOf[controllers.Application]).newtest)
+      }
+  
+    // @LINE:44
+    case controllers_Assets_at23_route(params) =>
       call(Param[String]("path", Right("/public")), params.fromPath[String]("file", None)) { (path, file) =>
-        controllers_Assets_at14_invoker.call(controllers.Assets.at(path, file))
+        controllers_Assets_at23_invoker.call(controllers.Assets.at(path, file))
       }
   }
 }

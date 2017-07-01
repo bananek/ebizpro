@@ -13,6 +13,7 @@ case class UserREST(name: String, email: String, password: String, priv: Int)
 case class OrderREST(oid: Int,  productlist: String, shipment: String, payment: String,  price: Int, uid: String, address: String)
 case class CartREST(title: String, price: Int, uid: String)
 case class TestREST(t: Int)
+case class ParcelsREST(oid: Int,  productlist: String, shipment: String, payment: String,  price: Int, uid: String, address: String)
 
 object ProductsREST {
   implicit val productsFormat = Json.format[ProductsREST]
@@ -36,4 +37,8 @@ object CartREST{
 
 object TestREST{
   implicit var testFormat = Json.format[TestREST]
+}
+
+object ParcelsREST{
+  implicit var parcelsFormat = Json.format[ParcelsREST]
 }

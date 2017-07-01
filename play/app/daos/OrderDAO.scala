@@ -1,19 +1,15 @@
-package daos
 
-/**
-  * Created by BanaN on 6/17/2017.
-  */
+
+package daos
 
 import javax.inject.Inject
 
 import models.{Order, OrderREST}
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.driver.JdbcProfile
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-import javax.inject.Inject
-import play.api.db.slick.DatabaseConfigProvider
-import play.api.db.slick.HasDatabaseConfigProvider
-import slick.driver.JdbcProfile
 
 
 class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
@@ -23,23 +19,24 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   val Orders = TableQuery[OrderTable]
 
-  def insert(order: Order): Future[Unit] = db.run(Orders += order).map { _ => () }
-
-  def remove(oid: Int): Future[Unit] = db.run(Orders.filter(_.oid === oid).delete).map { _ => () }
-
   def all(implicit ec: ExecutionContext): Future[List[OrderREST]] = {
     val query =  Orders
     val results = query.result
-    val futureProducts = db.run(results)
-    futureProducts.map(
+    val futureOrders = db.run(results)
+    futureOrders.map(
       _.map {
         a => OrderREST(oid = a.oid, productlist = a.productlist, shipment = a.shipment, payment = a.payment, price = a.price, uid = a.uid, address = a.address)
       }.toList)
   }
 
-  class OrderTable(tag: Tag) extends Table[Order](tag, "ORDER") {
+  def insert(order: Order): Future[Unit] = db.run(Orders += order).map { _ => () }
 
-    def oid = column[Int]("OID",O.AutoInc, O.AutoInc)
+  def remove(oid: Int): Future[Unit] = db.run(Orders.filter(_.oid === oid).delete).map { _ => () }
+
+
+  class OrderTable(tag: Tag) extends Table[Order](tag, "Order") {
+
+    def oid = column[Int]("OID", O.AutoInc, O.AutoInc)
 
     def productlist = column[String]("PRODUCTLIST")
 
@@ -53,7 +50,8 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
     def address = column[String]("ADDRESS")
 
-    def * = (oid, productlist, shipment, payment, price, uid, address) <> (models.Order.tupled, models.Order.unapply)
+
+    def * = (oid, productlist, shipment, payment, price, uid, address) <>(models.Order.tupled, models.Order.unapply _)
   }
 
 }

@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:N:/ebiznes/ec/play/conf/routes
-// @DATE:Mon Jun 26 23:05:46 CEST 2017
+// @DATE:Sat Jul 01 01:38:38 CEST 2017
 
 
 package router {

@@ -14,16 +14,50 @@ import javax.inject.Inject
 
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categoriesDAO: CategoriesDAO, cartDAO: CartDAO, userDAO: UserDAO, testDAO: TestDAO) extends Controller {
+class Application @Inject() (parcelsDAO: ParcelsDAO, productsDAO: ProductsDAO, orderDAO: OrderDAO, categoriesDAO: CategoriesDAO, cartDAO: CartDAO, userDAO: UserDAO, testDAO: TestDAO) extends Controller {
 
-/*
+
   val productForm = Form(
     mapping(
       "title" -> text(),
+      "author" -> text(),
+      "description" -> text(),
+      "pid" -> number(0),
+      "gid" -> number,
+      "price" -> number
+    )(Products.apply)(Products.unapply)
+  )
+
+  val parcelForm = Form(
+    mapping(
+      "oid" -> number(0),
+      "productlist" -> text(),
+      "shipment" -> text(),
+      "payment" -> text(),
       "price" -> number,
-      "uid" -> text()
-    )(Cart.apply)(Cart.unapply)
-  )*/
+      "uid" -> text(),
+      "address" -> text()
+    )(Parcels.apply)(Parcels.unapply)
+  )
+
+  val categoryForm = Form(
+    mapping(
+      "gid" -> number,
+      "genre" -> text()
+    )(Categories.apply)(Categories.unapply)
+  )
+
+  val orderForm = Form(
+    mapping(
+        "oid" -> number(0),
+        "productlist" -> text(),
+        "shipment" -> text(),
+        "payment" -> text(),
+        "price" -> number,
+        "uid" -> text(),
+        "address" -> text()
+    )(Order.apply)(Order.unapply)
+  )
 
   val testForm = Form(
     mapping(
@@ -53,6 +87,19 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
     }
   }
 
+  def pbrowse = Action.async { implicit  request =>
+    parcelsDAO.all map {
+      parcels => Ok(Json.toJson(parcels))
+    }
+  }
+
+
+  def showorders = Action.async { implicit  request =>
+    orderDAO.all map {
+      orders => Ok(Json.toJson(orders))
+    }
+  }
+
   def showtest = Action.async { implicit  request =>
     testDAO.all map {
       tests => Ok(Json.toJson(tests))
@@ -77,20 +124,33 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
   }
 
   // ORDERS
-
+/*
   def sendorder = Action { implicit request =>
     var json:OrderREST = request.body.asJson.get.as[OrderREST]
     var order = Order(oid = json.oid,  productlist = json.productlist, shipment = json.shipment, payment = json.payment,  price = json.price, uid = json.uid, address = json.address)
     orderDAO.insert(order)
     Ok(request.body.asJson.get)
+  }*/
+
+  def sendorder = Action { implicit request =>
+    val order: models.Order = orderForm.bindFromRequest().get
+    orderDAO.insert(order)
+    Ok
   }
 
 
-  def showorders = Action.async { implicit  request =>
-    orderDAO.all map {
-      orders => Ok(Json.toJson(orders))
-    }
+  def newproduct = Action { implicit request =>
+    val product: models.Products = productForm.bindFromRequest().get
+    productsDAO.insert(product)
+    Ok
   }
+
+  def newparcel = Action { implicit request =>
+    val parcel: models.Parcels = parcelForm.bindFromRequest().get
+    parcelsDAO.insert(parcel)
+    Ok
+  }
+
 
   // CART
 
@@ -98,6 +158,26 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
     cartDAO.remove(title)
     Ok("200")
   }
+
+  def removeproduct(pid: Int) = Action { implicit request =>
+    productsDAO.remove(pid)
+    Ok
+  }
+
+  def removecategory(gid: Int) = Action { implicit request =>
+    categoriesDAO.remove(gid)
+    Ok
+  }
+
+  def removeparcel(oid: Int) = Action { implicit request =>
+    parcelsDAO.remove(oid)
+    Ok
+  }
+  def removeorder(oid: Int) = Action { implicit request =>
+    orderDAO.remove(oid)
+    Ok
+  }
+
 
   def addtocart = Action { implicit request =>
     var json:CartREST = request.body.asJson.get.as[CartREST]
@@ -111,12 +191,8 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
       users => Ok(Json.toJson(users))
     }
   }
-/*
-  def newproduct = Action { implicit request =>
-    val cart: models.Cart = productForm.bindFromRequest().get
-    cartDAO.insert(cart)
-    Ok
-  }*/
+
+
 
 
   // list of categories
@@ -133,11 +209,23 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
     }
   }
 
+  def getcat(id: Int) = Action.async { implicit  request =>
+    categoriesDAO.one(id) map {
+      categories => Ok(Json.toJson(categories))
+    }
+  }
+
   // list of all products from a specified category
   def category(id: Int) = Action.async { implicit  request =>
     productsDAO.fromCategory(id) map {
       products => Ok(Json.toJson(products))
     }
+  }
+
+  def newcategory = Action { implicit request =>
+    val category: models.Categories = categoryForm.bindFromRequest().get
+    categoriesDAO.insert(category)
+    Ok
   }
 
   /*
@@ -158,19 +246,9 @@ class Application @Inject() (productsDAO: ProductsDAO, orderDAO: OrderDAO, categ
     Redirect(routes.Application.index())
   }
 
-  def updateproduct(title:String) = Action.async { implicit request =>
-    val computerAndOptions = for {
-      product <- productDAO.findById(title)
-    } yield (product)
 
-    computerAndOptions.map { case (computer) =>
-      computer match {
-        case Some(product) => Ok(views.html.updateproduct(product))
-        case None => NotFound
-      }
-    }
 
-  }
+
   */
 
 }

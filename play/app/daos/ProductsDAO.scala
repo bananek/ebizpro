@@ -47,6 +47,8 @@ class ProductsDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   def insert(product: Products): Future[Unit] = db.run(Products += product).map { _ => () }
 
+  def remove(pid: Int): Future[Unit] = db.run(Products.filter(_.pid === pid).delete).map { _ => () }
+
 
   class ProductsTable(tag: Tag) extends Table[Products](tag, "Products") {
 

@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:N:/ebiznes/ec/play/conf/routes
-// @DATE:Mon Jun 26 23:05:46 CEST 2017
+// @DATE:Sat Jul 01 01:38:38 CEST 2017
 
 import play.api.routing.JavaScriptReverseRoute
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
@@ -14,7 +14,7 @@ import _root_.controllers.Assets.Asset
 package controllers.javascript {
   import ReverseRouteContext.empty
 
-  // @LINE:31
+  // @LINE:44
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -22,7 +22,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:31
+    // @LINE:44
     def at: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.at",
       """
@@ -52,12 +52,32 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:12
+    // @LINE:13
     def cart: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.cart",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "cart"})
+        }
+      """
+    )
+  
+    // @LINE:23
+    def newproduct: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.newproduct",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "newproduct"})
+        }
+      """
+    )
+  
+    // @LINE:20
+    def newparcel: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.newparcel",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "newparcel"})
         }
       """
     )
@@ -72,7 +92,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:26
+    // @LINE:39
     def removetest: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.removetest",
       """
@@ -92,7 +112,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:18
+    // @LINE:25
     def addtocart: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.addtocart",
       """
@@ -102,7 +122,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:22
+    // @LINE:30
     def removefromcart: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.removefromcart",
       """
@@ -122,6 +142,36 @@ package controllers.javascript {
       """
     )
   
+    // @LINE:35
+    def removeparcel: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.removeparcel",
+      """
+        function(oid) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "removeparcel/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("oid", oid)})
+        }
+      """
+    )
+  
+    // @LINE:31
+    def removeproduct: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.removeproduct",
+      """
+        function(pid) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "removeproduct/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("pid", pid)})
+        }
+      """
+    )
+  
+    // @LINE:18
+    def pbrowse: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.pbrowse",
+      """
+        function() {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "pbrowse"})
+        }
+      """
+    )
+  
     // @LINE:11
     def category: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.category",
@@ -132,7 +182,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:14
+    // @LINE:15
     def showorders: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.showorders",
       """
@@ -142,7 +192,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:27
+    // @LINE:40
     def newtest: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.newtest",
       """
@@ -152,7 +202,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:17
+    // @LINE:24
     def sendorder: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.sendorder",
       """
@@ -162,7 +212,37 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:25
+    // @LINE:33
+    def removeorder: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.removeorder",
+      """
+        function(oid) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "removeorder/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("oid", oid)})
+        }
+      """
+    )
+  
+    // @LINE:26
+    def newcategory: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.newcategory",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "newcategory"})
+        }
+      """
+    )
+  
+    // @LINE:12
+    def getcat: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.getcat",
+      """
+        function(id) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "getcategory" + _qS([(id == null ? null : (""" + implicitly[QueryStringBindable[Int]].javascriptUnbind + """)("id", id))])})
+        }
+      """
+    )
+  
+    // @LINE:38
     def showtest: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Application.showtest",
       """
@@ -178,6 +258,16 @@ package controllers.javascript {
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + """"})
+        }
+      """
+    )
+  
+    // @LINE:32
+    def removecategory: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.Application.removecategory",
+      """
+        function(gid) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "removecategory/" + (""" + implicitly[PathBindable[Int]].javascriptUnbind + """)("gid", gid)})
         }
       """
     )

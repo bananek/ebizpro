@@ -26,7 +26,18 @@ class CategoriesDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
       }.toList)
   }
 
+  def one(gid: Int): Future[Option[CategoriesREST]] = {
+    val futureCategory = db.run(Categories.filter(_.gid === gid).result.headOption)
+    futureCategory.map(
+      _.map {
+        a => CategoriesREST(gid = a.gid, genre = a.genre)
+      })
+  }
+
+
   def insert(category: Categories): Future[Unit] = db.run(Categories += category).map { _ => () }
+
+  def remove(gid: Int): Future[Unit] = db.run(Categories.filter(_.gid === gid).delete).map { _ => () }
 
 
   class CategoriesTable(tag: Tag) extends Table[Categories](tag, "CATEGORIES") {
